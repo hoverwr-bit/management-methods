@@ -1,5 +1,7 @@
 # 管理方法论图解（开源 · 可编辑 · 共 20 个）
 
+**语言 Language Ngôn ngữ**：**中文** · [English](README.en.md) · [Tiếng Việt](README.vi.md)
+
 所有图解均使用 **Mermaid** 文本语法绘制（开源格式，[mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) 82k+ stars）。
 任何支持 Mermaid 的工具都能直接渲染成图：
 
