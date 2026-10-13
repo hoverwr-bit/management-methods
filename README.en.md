@@ -1,6 +1,6 @@
-# Management Methodology Diagrams (Open Source · Editable · 20 Frameworks)
+# Management Methodology Diagrams (Open Source · Editable · 39 Frameworks)
 
-**Language Ngôn ngữ 语言**：[中文](README.md) · **English** · [Tiếng Việt](README.vi.md)
+**Language**：**English** · [中文](README.md) · [Tiếng Việt](README.vi.md)
 
 All diagrams are drawn with **Mermaid** text syntax (open format, [mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) 82k+ stars).
 Any Mermaid-compatible tool can render them directly:
@@ -23,6 +23,10 @@ To edit a diagram, just change the text — no drawing software required.
 | Execute / continuous improvement | PDCA, DMAIC, 8D |
 | Communicate and present | Pyramid Principle, Golden Circle |
 | Retrospect and review | GRAI |
+| Factory quality analysis | QC Seven Basic Tools, control chart, CPK, GRR, FMEA |
+| Factory floor and equipment | 5S, Poka-Yoke, TPM, OEE, SMED |
+| Workplace safety | Heinrich's Law |
+| Improvement activities | QCC, A3 report |
 
 ## Tool Selection Roadmap
 
@@ -35,6 +39,7 @@ flowchart TB
     Q --> D["Make decisions"] --> D1["SWOT / Matrix / Six Thinking Hats"]
     Q --> E["Execute"] --> E1["PDCA / DMAIC / 8D"]
     Q --> F["Retrospect"] --> F1["GRAI / Pyramid Principle"]
+    Q --> G["Factory quality and equipment"] --> G1["QC tools / CPK / GRR / 5S / TPM"]
     style Q fill:#dae8fc,stroke:#6c8ebf
 ```
 
@@ -139,7 +144,7 @@ flowchart TB
 
 ```mermaid
 gantt
-    title Website Redesign Project Plan (Example)
+    title Website Redesign Project Plan - Example
     dateFormat YYYY-MM-DD
     section Planning
     Requirements research     :a1, 2026-11-01, 7d
@@ -224,7 +229,7 @@ flowchart LR
 
 ```mermaid
 quadrantChart
-    title SWOT (X: Internal -> External; Y: Favorable -> Unfavorable)
+    title SWOT - X: Internal -> External; Y: Favorable -> Unfavorable
     x-axis Internal --> External
     y-axis Favorable --> Unfavorable
     quadrant-2 Strengths S
@@ -252,7 +257,7 @@ quadrantChart
 
 ```mermaid
 quadrantChart
-    title Eisenhower Matrix (X: Urgent -> Not Urgent; Y: Not Important -> Important)
+    title Eisenhower Matrix - X: Urgent -> Not Urgent; Y: Not Important -> Important
     x-axis Urgent --> Not Urgent
     y-axis Not Important --> Important
     quadrant-2 1 Do First
@@ -300,7 +305,7 @@ flowchart LR
 
 ```mermaid
 quadrantChart
-    title BCG Matrix (X: Low Relative Share -> High; Y: Low Market Growth -> High)
+    title BCG Matrix - X: Low Relative Share -> High; Y: Low Market Growth -> High
     x-axis Low Share --> High Share
     y-axis Low Growth --> High Growth
     quadrant-2 Question Mark - Selective nurture
@@ -468,6 +473,391 @@ flowchart LR
 ```
 
 **Key point:** A retrospective is not a blame session; judge the issue, not the person. Insight must translate into "what specifically to do next time."
+
+---
+
+## VI. Quality Management: QC Seven Basic Tools
+
+### 21. QC Seven Basic Tools of Quality - Overview
+
+**One-liner:** The basic toolbox for on-site quality improvement — 5 for describing the problem, 2 for analyzing causes.
+
+```mermaid
+flowchart TB
+    ROOT["QC Seven Basic Tools"]
+    ROOT --> D1["Describe problem (data-driven)"]
+    ROOT --> D2["Analyze problem (find causes)"]
+    D1 --> T1["Check sheet<br/>Collect data"]
+    D1 --> T2["Stratification<br/>Classify and compare"]
+    D1 --> T3["Pareto chart<br/>Catch the vital few"]
+    D1 --> T4["Histogram<br/>See distribution shape"]
+    D1 --> T5["Scatter diagram<br/>See relationship between two variables"]
+    D1 --> T6["Control chart<br/>Monitor process variation"]
+    D2 --> T7["Cause-and-effect (fishbone)<br/>Systematic cause finding"]
+    style ROOT fill:#dae8fc,stroke:#6c8ebf
+```
+
+| Tool | Question it answers | Typical use |
+|---|---|---|
+| Check sheet | What is the actual situation? | Tick off items and record defect counts |
+| Stratification | Which category is most concentrated? | Layer by shift / machine / material / operator |
+| Pareto chart | Which to solve first? | Top 2-3 items usually account for 80% of defects |
+| Histogram | Is the process stable? | See distribution shape, compare with spec limits |
+| Scatter diagram | Is there a relationship between A and B? | Temperature vs defect rate, speed vs wear |
+| Control chart | Is the process normal now? | Real-time monitoring, alert when out of limits |
+| Fishbone | Why did it happen? | With 5Why to find root cause (see section 7) |
+
+---
+
+### 22. Check Sheet
+
+**One-liner:** Turn "impression" into "data" by recording item by item according to pre-designed categories.
+
+**Example: Injection molding defect check sheet (record every 2 hours)**
+
+| Time | Batch | Inspected | Short shot | Flash | Sink mark | Black spot | Total |
+|---|---|---|---|---|---|---|---|
+| 08:00 | A-101 | 50 | 1 | 0 | 2 | 0 | 3 |
+| 10:00 | A-101 | 50 | 0 | 3 | 1 | 1 | 5 |
+| 12:00 | A-102 | 50 | 2 | 1 | 0 | 0 | 3 |
+
+**Key points:** Item names must be specific ("Short shot" instead of "Appearance defect"); after a day's summary it can directly become a Pareto chart.
+
+---
+
+### 23. Stratification
+
+**One-liner:** Break mixed data apart by dimension and compare — differences often appear immediately.
+
+**Example:** Plant-wide defect rate 3.2% looks uniform, but after stratifying by machine:
+
+| Machine | 1# | 2# | 3# | 4# |
+|---|---|---|---|---|
+| Defect rate | 1.1% | 1.3% | **8.9%** | 1.5% |
+
+→ Problem locked on machine #3 (further check: mold wear + no adjustment after mold change).
+
+**Common stratification dimensions:** Shift, machine, mold, material batch, supplier, operator, measuring instrument, environment temperature/humidity.
+
+---
+
+### 24. Pareto Chart
+
+**One-liner:** Arrange defects from largest to smallest, focus on the top 20% to solve 80% of problems.
+
+```mermaid
+xychart-beta
+    title "Injection molding defect Pareto - one week, n=92"
+    x-axis ["Short shot", "Flash", "Sink mark", "Black spot", "Others"]
+    bar [45, 22, 12, 9, 4]
+```
+
+**Cumulative share:** Short shot 49% → plus Flash 73% → plus Sink mark 86%. Improving "Short shot + Flash" solves nearly three-quarters of defects.
+
+**Key point:** Pareto after stratification (e.g., one chart per machine) is more powerful.
+
+---
+
+### 25. Histogram
+
+**One-liner:** Group measured values into bars to see process center and spread at a glance.
+
+```mermaid
+xychart-beta
+    title "Shaft OD histogram - n=100, spec φ10±0.05"
+    x-axis ["9.96", "9.98", "10.00", "10.02", "10.04", "10.06"]
+    bar [4, 18, 35, 28, 11, 4]
+```
+
+**Reading:** Center about 10.005, basically centered in spec; bell-shaped → good process capability. If bars show bimodal, island, or skewed patterns, they respectively indicate: two machines mixed / outliers / needs adjustment.
+
+---
+
+### 26. Scatter Diagram
+
+**One-liner:** See whether a correlation exists between two variables, and what shape it is.
+
+| Pattern | Meaning | Direction |
+|---|---|---|
+| Strong positive (↗) | A up, B up | Control A to control B |
+| Strong negative (↘) | A up, B down | Same as above |
+| No correlation (scattered) | Unrelated | Look for other causes |
+| Curved (∩) | Nonlinear relationship | Find optimal inflection point |
+
+**Example:** Record 12 groups of "injection barrel temperature vs short shot defect count", calculate correlation coefficient r=0.85 (strong positive) → temperature is one of the main causes, DOE locks optimal 235℃.
+
+---
+
+### 27. Control Chart / SPC Monitoring
+
+**One-liner:** Draw a "normal variation band" for the process; out-of-limit or abnormal patterns trigger alarms — catching problems before final inspection.
+
+```mermaid
+xychart-beta
+    title "X control chart - target 10.0, control limits ±0.5"
+    x-axis [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    line [10.1, 9.9, 10.2, 10.0, 9.8, 10.3, 10.1, 9.9, 10.0, 10.2, 10.1, 11.2]
+    line [10.5, 10.5, 10.5, 10.5, 10.5, 10.5, 10.5, 10.5, 10.5, 10.5, 10.5, 10.5]
+    line [10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0]
+    line [9.5, 9.5, 9.5, 9.5, 9.5, 9.5, 9.5, 9.5, 9.5, 9.5, 9.5, 9.5]
+```
+
+**Reading:** Four lines in order — measured values (wavy line), upper control limit UCL, center line CL, lower control limit LCL. Point 12 breaks UCL → abnormal! Stop line immediately to find cause (in this example: tool wear).
+
+**Common out-of-control rules:** 1 point out / 7 consecutive same side / 7 consecutive rising or falling / 2 of 3 points near control limits.
+
+---
+
+## VII. Process Capability: CPK
+
+### 28. CPK / PPK Process Capability Index
+
+**One-liner:** Not only "everything made is within spec" (Cp looks at spread), but also "the process is steadily centered" (Cpk looks at offset).
+
+```mermaid
+flowchart LR
+    A["Spec: shaft OD φ10 ± 0.05<br/>USL=10.05, LSL=9.95"] --> B["Collect data n≥100<br/>Calculate mean μ and std dev σ"]
+    B --> C["Cp = (USL - LSL) / 6σ<br/>= 0.10 / 0.048 ≈ 2.08"]
+    B --> D["Cpk = min(USL-μ, μ-LSL) / 3σ<br/>μ=10.01 → min(0.04, 0.06)/0.024 ≈ 1.67"]
+    C --> E{"Capable?"}
+    D --> E
+    E -->|"Cpk ≥ 1.67"| F["Excellent<br/>Reduce or skip inspection"]
+    E -->|"1.33 ~ 1.67"| G["Acceptable<br/>Normal production + SPC monitoring"]
+    E -->|"< 1.33"| H["Insufficient<br/>Improve process or 100% inspect"]
+    style F fill:#d5e8d4,stroke:#82b366
+    style G fill:#ffe6cc,stroke:#d79b00
+    style H fill:#f8cecc,stroke:#b85450
+```
+
+**Key difference:** Cp only compares spread vs tolerance band regardless of centering; Cpk additionally penalizes center offset. Example: same σ but μ shifted to 10.04, Cp stays 2.08, Cpk drops to 0.14 (large overflow) — **mass production always judges by Cpk.**
+
+**Reference:** General industry Cpk≥1.33; automotive/safety parts Cpk≥1.67. PPK uses the same algorithm for the pilot-run stage (long-term data includes all variation).
+
+---
+
+## VIII. Measurement System Analysis: GRR
+
+### 29. GRR (Gauge Repeatability & Reproducibility)
+
+**One-liner:** First prove with data that "the gauge + people + method" itself is trustworthy; otherwise CPK and SPC are built on sand.
+
+```mermaid
+flowchart LR
+    A["Select 10 parts<br/>Cover full tolerance range"] --> B["3 inspectors<br/>Each measures each part blindly 3 times"]
+    B --> C["Calculate %GRR<br/>= gauge system variation / total variation"]
+    C --> D{"Judge"}
+    D -->|"%GRR < 10%"| E["Acceptable<br/>Measurement system reliable"]
+    D -->|"10% ~ 30%"| F["Conditionally acceptable<br/>Depends on characteristic importance"]
+    D -->|"> 30%"| G["Unacceptable<br/>Change gauge / train / improve method"]
+    style E fill:#d5e8d4,stroke:#82b366
+    style F fill:#ffe6cc,stroke:#d79b00
+    style G fill:#f8cecc,stroke:#b85450
+```
+
+**Example:** Digital caliper measures shaft OD φ10±0.05, 10×3×3 test yields %GRR=8.2% → acceptable, data can be used for CPK. If %GRR=35%, even CPK 1.5 cannot be trusted — measurement noise has drowned real variation.
+
+**Breakdown:** Repeatability (variation when same inspector measures same part, reflects gauge itself) + Reproducibility (differences between inspectors, reflects people).
+
+---
+
+## IX. Risk Prevention & Automotive Tools
+
+### 30. FMEA Failure Mode and Effects Analysis
+
+**One-liner:** In the design stage, list in advance "where it could fail, how severe, can it be caught", rank by risk, and prioritize prevention.
+
+```mermaid
+flowchart LR
+    A["Identify potential failure mode<br/>e.g., solder joint cold solder"] --> B["Score each 1~10<br/>S Severity · O Occurrence · D Detection"]
+    B --> C["RPN = S × O × D<br/>Ex: 8×4×3 = 96"]
+    C --> D{"RPN ≥ 100 or S ≥ 9?"}
+    D -->|"Yes"| E["Must improve<br/>Add error-proofing / redesign / add inspection"]
+    D -->|"No"| F["Accept and monitor"]
+    E --> G["Re-score after improvement<br/>RPN should drop significantly"]
+    style C fill:#ffe6cc,stroke:#d79b00
+```
+
+**Example: Control board wave soldering FMEA excerpt**
+
+| Failure mode | S | O | D | RPN | Action |
+|---|---|---|---|---|---|
+| Solder joint cold solder | 8 | 4 | 3 | 96 | Add AOI automatic optical inspection |
+| Reverse polarity insertion | 9 | 2 | 5 | 90 | Change fool-proof PCB package (see Poka-Yoke) |
+| Missing screw | 6 | 3 | 2 | 36 | Electric screwdriver count + alarm |
+
+**Key points:** S≥9 (safety risk) must be fixed regardless of RPN; new AIAG-VDA uses AP (Action Priority) instead of RPN, same idea.
+
+---
+
+### 31. IATF Five Core Tools (Automotive)
+
+**One-liner:** APQP manages the process rhythm, FMEA manages risk, SPC manages the process, MSA manages measurement, PPAP manages production release.
+
+```mermaid
+flowchart LR
+    A["APQP Advanced Product Quality Planning<br/>5 phases: Plan→Design→Prototype→Pilot→Production"] --> B["FMEA<br/>Design/process risk analysis"]
+    A --> C["SPC<br/>Critical characteristic process monitoring"]
+    A --> D["MSA<br/>Measurement system validation (incl. GRR)"]
+    B --> E["PPAP Production Part Approval<br/>Customer approval before mass production"]
+    C --> E
+    D --> E
+    style A fill:#dae8fc,stroke:#6c8ebf
+    style E fill:#d5e8d4,stroke:#82b366
+```
+
+**Practical scenario:** When supplying automotive customers, the PPAP package usually contains: FMEA, control plan, MSA (GRR report), initial process capability (Cpk), sample reports.
+
+---
+
+## X. Factory Floor & Equipment
+
+### 32. 5S Workplace Organization
+
+**One-liner:** Sort, Set in order, Shine, Standardize, Sustain — everything in workplace management starts with 5S.
+
+```mermaid
+flowchart LR
+    S1["1S Sort<br/>Keep or discard<br/>Decisively remove"] --> S2["2S Set in order<br/>A place for everything<br/>Find in 30 seconds"]
+    S2 --> S3["3S Shine<br/>Clean black spots/oil leaks<br/>Also inspect"]
+    S3 --> S4["4S Standardize<br/>First 3S standardized<br/>Maintain results"]
+    S4 --> S5["5S Sustain<br/>Habit becomes natural"]
+    style S5 fill:#d5e8d4,stroke:#82b366
+```
+
+**Example:** Mold change tool finding dropped from 20 minutes to 2 minutes — tool wall with shadow board positioning, missing item visible at a glance (links with Poka-Yoke).
+
+---
+
+### 33. Poka-Yoke (Mistake-Proofing)
+
+**One-liner:** Make mistakes physically impossible, instead of relying on people being careful.
+
+| Type | Principle | Example |
+|---|---|---|
+| Physical | Asymmetric shape, won't fit if reversed | USB connector, asymmetric locating pin |
+| Sequential | Cannot do next step until previous done | Cannot reach screwdriver without shell installed |
+| Counting | Wrong quantity won't pass | Electric screwdriver: green light only after 4 screws |
+| Alarm | Immediate visual/audible alert | Missing part triggers Andon pull cord |
+| Information | Color/label distinguishes materials | Red/blue bins for different batches |
+
+**Example:** Operator missed installing seal ring causing customer complaint → changed to vibratory bowl auto-feed + fiber optic counting, machine stops automatically when missing (counting + alarm).
+
+---
+
+### 34. OEE Overall Equipment Effectiveness
+
+**One-liner:** The share of time a machine is truly producing effective output — three major losses multiplied layer by layer.
+
+```mermaid
+flowchart LR
+    A["Loading time 480 min"] --> B["Minus: breakdown + changeover 60 min<br/>Availability 87.5%"]
+    B --> C["Multiply: speed loss<br/>Performance efficiency 95%"]
+    C --> D["Multiply: defects + rework<br/>Quality rate 98%"]
+    D --> E["OEE = 87.5% × 95% × 98%<br/>≈ 81.5%"]
+    E --> F{"World class 85%"}
+    style E fill:#ffe6cc,stroke:#d79b00
+```
+
+**Six big losses quick check:** Breakdowns, changeover/adjustment (time loss); idling minor stops, reduced speed (performance loss); startup scrap, process defects (quality loss).
+
+**Example:** For a machine with OEE only 45%, use Pareto to find the biggest loss — if changeover is 30%, do SMED first; if breakdown is 40%, do TPM first.
+
+---
+
+### 35. TPM Total Productive Maintenance
+
+**One-liner:** Operators do daily inspection and maintenance, maintenance staff do professional upkeep — eliminate failures while they're still buds.
+
+```mermaid
+flowchart TB
+    ROOT["TPM Eight Pillars"]
+    ROOT --> P1["Autonomous maintenance<br/>Operators: cleaning is inspecting"]
+    ROOT --> P2["Planned maintenance<br/>Maintenance: scheduled care"]
+    ROOT --> P3["Focused improvement<br/>Eliminate six big losses"]
+    ROOT --> P4["Education & training<br/>Multi-skilled workers"]
+    ROOT --> P5["Early equipment management<br/>New equipment maintenance-free design"]
+    ROOT --> P6["Quality maintenance<br/>Equipment guarantees no defects"]
+    ROOT --> P7["Indirect department efficiency"]
+    ROOT --> P8["Safety & environment<br/>Zero accidents"]
+    style ROOT fill:#dae8fc,stroke:#6c8ebf
+```
+
+**Starter handle:** Start from "Autonomous maintenance step 1 — initial cleaning": during cleaning discover machine #3 guide rail oil leak → report and fix root cause → breakdown downtime drops 40% that month.
+
+---
+
+### 36. SMED Quick Changeover
+
+**One-liner:** Convert "must stop to do" internal changeover into "can do while running" external changeover; cutting changeover time in half is common.
+
+```mermaid
+flowchart LR
+    A["Current: changeover 120 min"] --> B["Step 1: separate internal/external<br/>Internal 70 / External 50"]
+    B --> C["Step 2: convert internal to external<br/>Mold preheat, material pre-stage -25 min"]
+    C --> D["Step 3: optimize internal<br/>Parallel work, quick-clamp -20 min"]
+    D --> E["Step 4: standardize + train<br/>-25 min"]
+    E --> F["Result: 50 min<br/>↓58%"]
+    style F fill:#d5e8d4,stroke:#82b366
+```
+
+**Example:** After injection molding changeover 120→50 min, small-batch production no longer "make a big pile at once", WIP inventory drops 30%.
+
+---
+
+## XI. Safety & Improvement Activities
+
+### 37. Heinrich's Law (Safety)
+
+**One-liner:** For every 1 serious injury, about 29 minor injuries and 300 near misses — eliminate "near miss" events to break the accident chain.
+
+```mermaid
+flowchart TB
+    A["300 near misses<br/>Almost happened / violation seen"] --> B["29 minor injuries<br/>Recordable accidents"]
+    B --> C["1 serious injury / fatality"]
+    D["Management action:<br/>Near misses also reported, analyzed, improved<br/>Many companies set 'near-miss proposal award'"] -.-> A
+    style C fill:#f8cecc,stroke:#b85450
+    style D fill:#d5e8d4,stroke:#82b366
+```
+
+**Example:** A plant recorded 600 near misses in a year (slips / near pinch), 2 injuries. Improved Top 3 near misses (anti-slip floor, light curtain) → zero injuries next year.
+
+---
+
+### 38. QCC Quality Control Circle
+
+**One-liner:** Employees at the same workplace form small voluntary circles, use QC tools + PDCA to continuously solve nearby problems.
+
+```mermaid
+flowchart LR
+    Q1["1 Select theme<br/>Management direction + self-proposed"] --> Q2["2 Grasp current situation<br/>Check sheet + stratification + Pareto"]
+    Q2 --> Q3["3 Set target<br/>SMART"]
+    Q3 --> Q4["4 Analyze<br/>Fishbone + 5Why"]
+    Q4 --> Q5["5 Implement countermeasures<br/>PDCA"]
+    Q5 --> Q6["6 Verify effect<br/>Before/after comparison"]
+    Q6 --> Q7["7 Standardize<br/>Prevent recurrence"]
+    Q7 --> Q8["8 Present and open issues"]
+    style Q6 fill:#d5e8d4,stroke:#82b366
+```
+
+**Example: Assembly shop "Reduce screw stripped thread defects" QCC:** Current 2.3% → circle members used stratification to lock onto electric screwdriver torque issue → countermeasure: torque screwdriver + daily check → dropped to 0.4% in 3 months, saving ~180,000 yuan/year in rework.
+
+---
+
+### 39. A3 Report
+
+**One-liner:** Condense the entire problem-solving process onto one A3 sheet — forces logical closure and one-page clarity.
+
+| Area | Content | Key point |
+|---|---|---|
+| Top-left | Background (why do it) | Use data to show pain |
+| Bottom-left | Current state and target | Stratification + Pareto; target SMART |
+| Top-right | Root cause analysis | Fishbone + 5Why (must be verified) |
+| Middle-right | Countermeasures and plan | 5W2H to assign owners |
+| Bottom-right | Results and standardization | Before/after numbers; spread to other lines |
+
+**Example:** A3 report on injury improvement — background (5 injuries this quarter) → current state (stratification: handling injuries 60%) → root cause (5Why: training stopped at signature) → countermeasure (practical test + assist carts) → result (0 next quarter).
+
+**When to use:** Cross-functional problem reports, QCC/8D results summary, asking management for resources.
 
 ---
 
