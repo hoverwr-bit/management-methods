@@ -53,8 +53,8 @@ TEMPLATE = """<!DOCTYPE html>
 <body>
 <nav class="langnav">{nav}</nav>
 <main id="content">{loading}</main>
-<script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script src="{assets}marked.min.js"></script>
+<script src="{assets}mermaid.min.js"></script>
 <script>
 const md = __MD_DATA__;
 document.getElementById("content").innerHTML = marked.parse(md);
@@ -66,9 +66,9 @@ mermaid.run({{ querySelector: ".language-mermaid" }});
 """
 
 LANG_ATTR = {"zh": "zh-CN", "en": "en", "vi": "vi"}
-LOADING = {"zh": "正在加载图解，请稍候……（需要联网加载渲染引擎）",
-           "en": "Loading diagrams… (internet required for the rendering engine)",
-           "vi": "Đang tải sơ đồ… (cần internet để tải công cụ render)"}
+LOADING = {"zh": "正在加载图解，请稍候……",
+           "en": "Loading diagrams…",
+           "vi": "Đang tải sơ đồ…"}
 TITLES = {"zh": "管理方法论图解", "en": "Management Methodology Diagrams",
           "vi": "Sơ đồ các phương pháp quản trị"}
 
@@ -90,6 +90,7 @@ for code, name, src, out, links in LANGS:
             .replace("{title}", TITLES[code])
             .replace("{nav}", build_nav(code, links))
             .replace("{loading}", LOADING[code])
+            .replace("{assets}", "" if "/" not in out else "../")
             .replace("__MD_DATA__", json.dumps(md, ensure_ascii=False)))
     target = HERE / out
     target.parent.mkdir(parents=True, exist_ok=True)
