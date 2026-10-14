@@ -237,12 +237,12 @@ flowchart LR
 ```mermaid
 quadrantChart
     title SWOT - X: Internal -> External; Y: Favorable -> Unfavorable
-    x-axis Internal --> External
-    y-axis Favorable --> Unfavorable
-    quadrant-2 Strengths S
-    quadrant-1 Threats T
-    quadrant-3 Opportunities O
-    quadrant-4 Weaknesses W
+    x-axis "Internal" --> "External"
+    y-axis "Favorable" --> "Unfavorable"
+    quadrant-2 "Strengths S"
+    quadrant-1 "Threats T"
+    quadrant-3 "Opportunities O"
+    quadrant-4 "Weaknesses W"
 ```
 
 **Example:** Strengths = strong technology, good brand; Weaknesses = weak channels, talent shortage; Opportunities = policy support, market growth; Threats = intensifying competition, substitutes emerging.
@@ -265,12 +265,12 @@ quadrantChart
 ```mermaid
 quadrantChart
     title Eisenhower Matrix - X: Urgent -> Not Urgent; Y: Not Important -> Important
-    x-axis Urgent --> Not Urgent
-    y-axis Not Important --> Important
-    quadrant-2 1 Do First
-    quadrant-1 2 Schedule - Focus Here
-    quadrant-3 3 Delegate / Handle Quickly
-    quadrant-4 4 Reduce / Drop
+    x-axis "Urgent" --> "Not Urgent"
+    y-axis "Not Important" --> "Important"
+    quadrant-2 "1 Do First"
+    quadrant-1 "2 Schedule - Focus Here"
+    quadrant-3 "3 Delegate / Handle Quickly"
+    quadrant-4 "4 Reduce / Drop"
 ```
 
 - **1 Important + Urgent** (crises, deadlines) → Do immediately
@@ -313,12 +313,12 @@ flowchart LR
 ```mermaid
 quadrantChart
     title BCG Matrix - X: Low Relative Share -> High; Y: Low Market Growth -> High
-    x-axis Low Share --> High Share
-    y-axis Low Growth --> High Growth
-    quadrant-2 Question Mark - Selective nurture
-    quadrant-1 Star - Invest more
-    quadrant-3 Dog - Shrink or exit
-    quadrant-4 Cash Cow - Harvest cash to feed stars
+    x-axis "Low Share" --> "High Share"
+    y-axis "Low Growth" --> "High Growth"
+    quadrant-2 "Question Mark - Selective nurture"
+    quadrant-1 "Star - Invest more"
+    quadrant-3 "Dog - Shrink or exit"
+    quadrant-4 "Cash Cow - Harvest cash to feed stars"
 ```
 
 ---
@@ -1128,12 +1128,12 @@ flowchart TB
 ```mermaid
 quadrantChart
     title Ansoff Matrix - X: Existing Product -> New Product; Y: Existing Market -> New Market
-    x-axis Existing Product --> New Product
-    y-axis Existing Market --> New Market
-    quadrant-3 Market penetration - sell more existing products to existing customers
-    quadrant-2 Market development - existing products into new markets
-    quadrant-4 Product development - new products for existing customers
-    quadrant-1 Diversification - new product + new market, highest risk
+    x-axis "Existing Product" --> "New Product"
+    y-axis "Existing Market" --> "New Market"
+    quadrant-3 "Market penetration - sell more existing products to existing customers"
+    quadrant-2 "Market development - existing products into new markets"
+    quadrant-4 "Product development - new products for existing customers"
+    quadrant-1 "Diversification - new product + new market, highest risk"
 ```
 
 **Example:** Snack factory growth path — market penetration (channel down-extension to county supermarkets) → product development (low-sugar version for existing customers) → market development (export to Southeast Asia) → diversification (acquire beverage factory).

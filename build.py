@@ -31,23 +31,23 @@ TEMPLATE = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
 <style>
-  body {{ max-width: 900px; margin: 0 auto; padding: 24px;
+  body { max-width: 900px; margin: 0 auto; padding: 24px;
          font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
-         line-height: 1.7; color: #24292f; }}
-  .langnav {{ text-align: right; font-size: 14px; padding: 4px 0 12px;
-              border-bottom: 1px solid #d0d7de; margin-bottom: 16px; }}
-  .langnav b {{ font-weight: 600; }}
-  .langnav a {{ color: #0969da; text-decoration: none; margin: 0 4px; }}
-  h1 {{ border-bottom: 2px solid #d0d7de; padding-bottom: .3em; }}
-  h2 {{ border-bottom: 1px solid #d0d7de; padding-bottom: .2em; margin-top: 1.8em; }}
-  h3 {{ margin-top: 1.5em; }}
-  table {{ border-collapse: collapse; margin: 1em 0; }}
-  th, td {{ border: 1px solid #d0d7de; padding: 6px 12px; }}
-  th {{ background: #f6f8fa; }}
-  pre {{ background: #f6f8fa; padding: 12px; border-radius: 6px; overflow-x: auto; }}
-  blockquote {{ margin: 0; padding: 0 1em; color: #57606a; border-left: 3px solid #d0d7de; }}
-  code {{ background: #f6f8fa; padding: 2px 5px; border-radius: 4px; }}
-  .mermaid {{ text-align: center; background: #fff; margin: 1em 0; }}
+         line-height: 1.7; color: #24292f; }
+  .langnav { text-align: right; font-size: 14px; padding: 4px 0 12px;
+              border-bottom: 1px solid #d0d7de; margin-bottom: 16px; }
+  .langnav b { font-weight: 600; }
+  .langnav a { color: #0969da; text-decoration: none; margin: 0 4px; }
+  h1 { border-bottom: 2px solid #d0d7de; padding-bottom: .3em; }
+  h2 { border-bottom: 1px solid #d0d7de; padding-bottom: .2em; margin-top: 1.8em; }
+  h3 { margin-top: 1.5em; }
+  table { border-collapse: collapse; margin: 1em 0; }
+  th, td { border: 1px solid #d0d7de; padding: 6px 12px; }
+  th { background: #f6f8fa; }
+  pre { background: #f6f8fa; padding: 12px; border-radius: 6px; overflow-x: auto; }
+  blockquote { margin: 0; padding: 0 1em; color: #57606a; border-left: 3px solid #d0d7de; }
+  code { background: #f6f8fa; padding: 2px 5px; border-radius: 4px; }
+  .mermaid { text-align: center; background: #fff; margin: 1em 0; }
 </style>
 </head>
 <body>
@@ -58,8 +58,8 @@ TEMPLATE = """<!DOCTYPE html>
 <script>
 const md = __MD_DATA__;
 document.getElementById("content").innerHTML = marked.parse(md);
-mermaid.initialize({{ startOnLoad: false, theme: "default", flowchart: {{ htmlLabels: true }} }});
-mermaid.run({{ querySelector: ".language-mermaid" }});
+mermaid.initialize({ startOnLoad: false, theme: "default", flowchart: { htmlLabels: true } });
+mermaid.run({ querySelector: ".language-mermaid" });
 </script>
 </body>
 </html>

@@ -237,12 +237,12 @@ flowchart LR
 ```mermaid
 quadrantChart
     title SWOT 分析（横轴：内部 → 外部；纵轴：有利 → 不利）
-    x-axis 内部 --> 外部
-    y-axis 有利 --> 不利
-    quadrant-2 优势 S
-    quadrant-1 威胁 T
-    quadrant-3 机会 O
-    quadrant-4 劣势 W
+    x-axis "内部" --> "外部"
+    y-axis "有利" --> "不利"
+    quadrant-2 "优势 S"
+    quadrant-1 "威胁 T"
+    quadrant-3 "机会 O"
+    quadrant-4 "劣势 W"
 ```
 
 **示例**：优势=技术强、品牌好；劣势=渠道弱、人才缺；机会=政策扶持、市场增长；威胁=竞争加剧、替代品出现。
@@ -265,12 +265,12 @@ quadrantChart
 ```mermaid
 quadrantChart
     title 艾森豪威尔四象限（横轴：紧急 → 不紧急；纵轴：不重要 → 重要）
-    x-axis 紧急 --> 不紧急
-    y-axis 不重要 --> 重要
-    quadrant-2 ① 立即做
-    quadrant-1 ② 计划做（重点投入）
-    quadrant-3 ③ 授权 / 速办
-    quadrant-4 ④ 少做 / 不做
+    x-axis "紧急" --> "不紧急"
+    y-axis "不重要" --> "重要"
+    quadrant-2 "① 立即做"
+    quadrant-1 "② 计划做（重点投入）"
+    quadrant-3 "③ 授权 / 速办"
+    quadrant-4 "④ 少做 / 不做"
 ```
 
 - **① 重要 + 紧急**（危机、临期任务）→ 立即做
@@ -313,12 +313,12 @@ flowchart LR
 ```mermaid
 quadrantChart
     title BCG 波士顿矩阵（横轴：相对市场份额低 → 高；纵轴：市场增长率低 → 高）
-    x-axis 份额低 --> 份额高
-    y-axis 增长率低 --> 增长率高
-    quadrant-2 问号：选择性培育
-    quadrant-1 明星：加大投入
-    quadrant-3 瘦狗：收缩或退出
-    quadrant-4 现金牛：收割现金，反哺明星
+    x-axis "份额低" --> "份额高"
+    y-axis "增长率低" --> "增长率高"
+    quadrant-2 "问号：选择性培育"
+    quadrant-1 "明星：加大投入"
+    quadrant-3 "瘦狗：收缩或退出"
+    quadrant-4 "现金牛：收割现金，反哺明星"
 ```
 
 ---
@@ -1128,12 +1128,12 @@ flowchart TB
 ```mermaid
 quadrantChart
     title 安索夫矩阵（横轴：现有产品 → 新产品；纵轴：现有市场 → 新市场）
-    x-axis 现有产品 --> 新产品
-    y-axis 现有市场 --> 新市场
-    quadrant-3 市场渗透：卖更多现有产品给现有客户
-    quadrant-2 市场开发：现有产品卖到新市场
-    quadrant-4 产品开发：给现有客户新产品
-    quadrant-1 多元化：新产品+新市场，风险最高
+    x-axis "现有产品" --> "新产品"
+    y-axis "现有市场" --> "新市场"
+    quadrant-3 "市场渗透：卖更多现有产品给现有客户"
+    quadrant-2 "市场开发：现有产品卖到新市场"
+    quadrant-4 "产品开发：给现有客户新产品"
+    quadrant-1 "多元化：新产品+新市场，风险最高"
 ```
 
 **范例**：零食厂的增长路径——市场渗透（渠道下沉到县城超市）→ 产品开发（推出低糖版给老客户）→ 市场开发（出口东南亚）→ 多元化（并购饮料厂）。
@@ -1284,4 +1284,4 @@ flowchart TB
 
 1. **先看路线图**：按你当前的任务类型选工具，不要 20 个全用。
 2. **组合使用**：5W2H 描述问题（8D 的 D2）→ 鱼骨图发散 → 5Why 收敛根因 → PDCA 跟踪改进。
-3. **修改图解**：直接改 ```mermaid 代码块里的文字即可，保存后 GitHub / Typora / `index.html` 会自动更新。
+3. **修改图解**：直接改 mermaid 代码块里的文字即可，保存后 GitHub / Typora / `index.html` 会自动更新。

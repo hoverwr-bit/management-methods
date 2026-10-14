@@ -237,12 +237,12 @@ flowchart LR
 ```mermaid
 quadrantChart
     title Phân tích SWOT - trục ngang: nội bộ → bên ngoài; trục dọc: có lợi → bất lợi
-    x-axis Nội bộ --> Bên ngoài
-    y-axis Có lợi --> Bất lợi
-    quadrant-2 Điểm mạnh S
-    quadrant-1 Đe dọa T
-    quadrant-3 Cơ hội O
-    quadrant-4 Điểm yếu W
+    x-axis "Nội bộ" --> "Bên ngoài"
+    y-axis "Có lợi" --> "Bất lợi"
+    quadrant-2 "Điểm mạnh S"
+    quadrant-1 "Đe dọa T"
+    quadrant-3 "Cơ hội O"
+    quadrant-4 "Điểm yếu W"
 ```
 
 **Ví dụ**: Điểm mạnh = công nghệ mạnh, thương hiệu tốt; Điểm yếu = kênh phân phối yếu, thiếu nhân tài; Cơ hội = chính sách hỗ trợ, thị trường tăng trưởng; Đe dọa = cạnh tranh gay gắt, sản phẩm thay thế xuất hiện.
@@ -265,12 +265,12 @@ quadrantChart
 ```mermaid
 quadrantChart
     title Ma trận Eisenhower - trục ngang: khẩn cấp → không khẩn cấp; trục dọc: không quan trọng → quan trọng
-    x-axis Khẩn cấp --> Không khẩn cấp
-    y-axis Không quan trọng --> Quan trọng
-    quadrant-2 ① Làm ngay
-    quadrant-1 ② Lập kế hoạch làm （tập trung đầu tư）
-    quadrant-3 ③ Ủy quyền / xử lý nhanh
-    quadrant-4 ④ Hạn chế / không làm
+    x-axis "Khẩn cấp" --> "Không khẩn cấp"
+    y-axis "Không quan trọng" --> "Quan trọng"
+    quadrant-2 "① Làm ngay"
+    quadrant-1 "② Lập kế hoạch làm （tập trung đầu tư）"
+    quadrant-3 "③ Ủy quyền / xử lý nhanh"
+    quadrant-4 "④ Hạn chế / không làm"
 ```
 
 - **① Quan trọng + Khẩn cấp** (khủng hoảng, nhiệm vụ sắp đến hạn) → Làm ngay
@@ -313,12 +313,12 @@ flowchart LR
 ```mermaid
 quadrantChart
     title Ma trận BCG - trục ngang: thị phần tương đối thấp → cao; trục dọc: tốc độ tăng trưởng thị trường thấp → cao
-    x-axis Thị phần thấp --> Thị phần cao
-    y-axis Tăng trưởng thấp --> Tăng trưởng cao
-    quadrant-2 Dấu hỏi：chọn lọc đầu tư
-    quadrant-1 Ngôi sao：tăng đầu tư
-    quadrant-3 Chó săn：thu hẹp hoặc rút lui
-    quadrant-4 Bò sữa：thu tiền mặt, nuôi ngôi sao
+    x-axis "Thị phần thấp" --> "Thị phần cao"
+    y-axis "Tăng trưởng thấp" --> "Tăng trưởng cao"
+    quadrant-2 "Dấu hỏi：chọn lọc đầu tư"
+    quadrant-1 "Ngôi sao：tăng đầu tư"
+    quadrant-3 "Chó săn：thu hẹp hoặc rút lui"
+    quadrant-4 "Bò sữa：thu tiền mặt, nuôi ngôi sao"
 ```
 
 ---
@@ -1128,12 +1128,12 @@ flowchart TB
 ```mermaid
 quadrantChart
     title Ma trận Ansoff - trục ngang: sản phẩm hiện tại → sản phẩm mới; trục dọc: thị trường hiện tại → thị trường mới
-    x-axis Sản phẩm hiện tại --> Sản phẩm mới
-    y-axis Thị trường hiện tại --> Thị trường mới
-    quadrant-3 Thâm nhập thị trường：bán thêm sản phẩm hiện cho khách hiện
-    quadrant-2 Phát triển thị trường：sản phẩm hiện sang thị trường mới
-    quadrant-4 Phát triển sản phẩm：sản phẩm mới cho khách hiện
-    quadrant-1 Đa dạng hóa：sản phẩm mới + thị trường mới, rủi ro cao nhất
+    x-axis "Sản phẩm hiện tại" --> "Sản phẩm mới"
+    y-axis "Thị trường hiện tại" --> "Thị trường mới"
+    quadrant-3 "Thâm nhập thị trường：bán thêm sản phẩm hiện cho khách hiện"
+    quadrant-2 "Phát triển thị trường：sản phẩm hiện sang thị trường mới"
+    quadrant-4 "Phát triển sản phẩm：sản phẩm mới cho khách hiện"
+    quadrant-1 "Đa dạng hóa：sản phẩm mới + thị trường mới, rủi ro cao nhất"
 ```
 
 **Ví dụ**: Lộ trình tăng trưởng của nhà máy snack — Thâm nhập thị trường (đưa sản phẩm hiện xuống siêu thị huyện) → Phát triển sản phẩm (ra phiên bản ít đường cho khách cũ) → Phát triển thị trường (xuất khẩu Đông Nam Á) → Đa dạng hóa (mua lại nhà máy nước giải khát).
