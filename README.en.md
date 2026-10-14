@@ -1,4 +1,4 @@
-# Management Methodology Diagrams (Open Source · Editable · 39 Frameworks)
+# Management Methodology Diagrams (Open Source · Editable · 60 Frameworks)
 
 **Language**：**English** · [中文](README.md) · [Tiếng Việt](README.vi.md)
 
@@ -25,6 +25,12 @@ To edit a diagram, just change the text — no drawing software required.
 | Retrospect and review | GRAI |
 | Factory quality analysis | QC Seven Basic Tools, control chart, CPK, GRR, FMEA |
 | Factory floor and equipment | 5S, Poka-Yoke, TPM, OEE, SMED |
+| Line efficiency & logistics | Line balancing, Kanban, VSM, EOQ |
+| Floor management & change control | Gemba walk, 4M change, Visual management |
+| Inspection & quality system | AQL, Control plan, SDCA, FIFO traceability |
+| Needs & strategy | Kano, PEST, Ansoff matrix |
+| Leading teams | RACI, GROW, KPT, Conflict five strategies, Maslow |
+| Project & risk | Critical path, Risk matrix |
 | Workplace safety | Heinrich's Law |
 | Improvement activities | QCC, A3 report |
 
@@ -40,6 +46,7 @@ flowchart TB
     Q --> E["Execute"] --> E1["PDCA / DMAIC / 8D"]
     Q --> F["Retrospect"] --> F1["GRAI / Pyramid Principle"]
     Q --> G["Factory quality and equipment"] --> G1["QC tools / CPK / GRR / 5S / TPM"]
+    Q --> H["Lead teams / run projects"] --> H1["RACI / GROW / KPT / Risk matrix"]
     style Q fill:#dae8fc,stroke:#6c8ebf
 ```
 
@@ -858,6 +865,406 @@ flowchart LR
 **Example:** A3 report on injury improvement — background (5 injuries this quarter) → current state (stratification: handling injuries 60%) → root cause (5Why: training stopped at signature) → countermeasure (practical test + assist carts) → result (0 next quarter).
 
 **When to use:** Cross-functional problem reports, QCC/8D results summary, asking management for resources.
+
+---
+
+## XII. Line Efficiency & Logistics
+
+### 40. Line Balancing
+
+**One-liner:** The smaller the cycle-time difference between stations, the higher line efficiency — the bottleneck station determines total output.
+
+```mermaid
+flowchart LR
+    A["Station 1<br/>20s"] --> B["Station 2<br/>35s ★ Bottleneck"]
+    B --> C["Station 3<br/>25s"]
+    C --> D["Station 4<br/>18s"]
+    D --> E["Station 5<br/>22s"]
+    F["Balance rate = sum of station times ÷ (stations × bottleneck time)<br/>= (20+35+25+18+22) ÷ (5×35) = 120÷175 ≈ 68.6%"]
+    G["Improve: split bottleneck / add people / parallel<br/>Target balance rate ≥ 85%"]
+    B -.-> F
+    F --> G
+    style B fill:#f8cecc,stroke:#b85450
+    style G fill:#d5e8d4,stroke:#82b366
+```
+
+**Example:** Split station 2's 35s into two parallel workers (18+17s), new bottleneck becomes 25s → balance rate = 120÷125 = **96%**, capacity up 40% without buying equipment.
+
+---
+
+### 41. Kanban
+
+**One-liner:** The downstream process takes what it needs; the upstream process produces only that amount — cards replace production orders, eliminating overproduction.
+
+```mermaid
+flowchart LR
+    A["Customer / downstream"] -->|"Take parts, remove kanban"| B["Kanban collection box"]
+    B -->|"Kanban = production order"| C["Upstream produces only kanban quantity"]
+    C -->|"Replenish"| D["Supermarket buffer"]
+    D --> A
+    E["Number of kanban cards<br/>= avg demand × replenishment cycle × (1 + safety factor) ÷ container capacity<br/>Ex: 500/day × 2 days × 1.2 ÷ 50 = 24 cards"]
+    style E fill:#fff2cc,stroke:#d6b656
+```
+
+**Example:** SMT shop uses 2-bin kanban (one in use, one replenishing); no more mountains of WIP, WIP down 60%.
+
+---
+
+### 42. Value Stream Mapping (VSM)
+
+**One-liner:** Draw information flow + material flow + time on one page to see every waste step from raw material to delivery.
+
+```mermaid
+flowchart LR
+    S["Supplier"] -->|"Weekly 1x"| P1["Stamping<br/>CT=10s<br/>Changeover 120min"]
+    P1 -->|"Push<br/>Batch 5000"| P2["Welding<br/>CT=15s"]
+    P2 -->|"Push"| P3["Assembly<br/>CT=45s"]
+    P3 -->|"Daily 2x"| C["Customer"]
+    T["Total lead time 23 days<br/>Value-added time only 70 seconds"]
+    P1 -.-> T
+    P2 -.-> T
+    P3 -.-> T
+    style T fill:#f8cecc,stroke:#b85450
+```
+
+**Usage:** Draw current state → mark inventory and waiting → draw future state (continuous flow + pull) → make improvement plan. In the example, only 70 seconds of the 23-day cycle is actual processing.
+
+---
+
+### 43. EOQ Economic Order Quantity
+
+**One-liner:** Order too little → high ordering cost; order too much → high inventory cost; EOQ is the balance point with lowest total cost.
+
+```mermaid
+flowchart LR
+    A["Annual demand D = 12000 pcs"] --> B["Order cost per order S = 500 yuan"]
+    A --> C["Annual holding cost per unit H = 5 yuan/pc"]
+    B --> D["EOQ = √(2DS ÷ H)"]
+    C --> D
+    D --> E["= √(2×12000×500÷5)<br/>≈ 1549 pcs/order"]
+    E --> F["Orders per year 12000÷1549 ≈ 8<br/>Minimum total cost ≈ 7745 yuan"]
+    style E fill:#ffe6cc,stroke:#d79b00
+```
+
+**Key points:** EOQ is an ideal model; in practice also consider MOQ, volume discounts, warehouse capacity, shelf life (use with caution for food/chemicals).
+
+---
+
+## XIII. Floor Management & Change Control
+
+### 44. Gemba Walk (Three-Actual Principles)
+
+**One-liner:** Actual place, actual thing, actual situation — don't sit in the office reading reports; go to the floor, see the real thing, grasp the truth.
+
+```mermaid
+flowchart TB
+    A["Problem occurs"] --> B["Go to the actual place<br/>Gemba"]
+    B --> C["See the actual thing<br/>Touch, measure, photograph"]
+    C --> D["Grasp the actual situation<br/>Verify with data, not hearsay"]
+    D --> E["Handle on spot / bring back true cause"]
+    F["Managers spend 30 min/day walking the line<br/>Three questions: What is the standard? What is actual? Why the gap?"] -.-> B
+    style E fill:#d5e8d4,stroke:#82b366
+```
+
+**Example:** Report shows defect rate 0.5% normal; line leader's gemba walk finds operator skipped cleaning step to hit quota — only visible on the floor.
+
+---
+
+### 45. 4M Change Management
+
+**One-liner:** Any change in Man, Machine, Material, or Method can introduce new risk — changes must follow a process, not be done quietly.
+
+```mermaid
+flowchart LR
+    A["Change request<br/>4M: Man/Machine/Material/Method"] --> B["Risk assessment<br/>Update FMEA"]
+    B --> C["Small-lot trial run<br/>Verify CPK, GRR"]
+    C --> D{"Customer approval?<br/>Required for automotive"}
+    D -->|"Yes"| E["Official switchover<br/>First lot tightened inspection"]
+    D -->|"No"| F["Continue validation or abandon"]
+    E --> G["Update control plan / SOP<br/>Notify relevant people"]
+    X["⚠ Unapproved change<br/>= complaints and batch incidents"] -.-> A
+    style X fill:#f8cecc,stroke:#b85450
+    style G fill:#d5e8d4,stroke:#82b366
+```
+
+**Example:** New screw supplier (Material change), no validation, direct production → 5000 units recalled for torque nonconformance — change process prevents this.
+
+---
+
+### 46. Visual Management
+
+**One-liner:** Make floor status known at a glance — normal vs. abnormal without asking, using color, lines, and lights.
+
+| Visual tool | Example |
+|---|---|
+| Color coding | Green = OK area, Red = defect area, Yellow = pending inspection |
+| Location marking | Tool shadow boards, aisle lines, max-stock lines (overflow = abnormal) |
+| Andon | Pull cord at station; light + sound on abnormality, team leader arrives within 3 min |
+| Management board | Hourly update of daily output / defects / equipment status |
+| Signal light | Machine green = running / yellow = standby / red = breakdown |
+
+**Benchmark:** Can a stranger walk into the shop and tell within 30 seconds where things are normal and where they are abnormal?
+
+---
+
+## XIV. Inspection & Quality System
+
+### 47. AQL Sampling Inspection
+
+**One-liner:** Full inspection is impossible; sample statistically — AQL tells you "how many to sample, how many defects to allow."
+
+```mermaid
+flowchart LR
+    A["Incoming lot N=1500 pcs"] --> B["Look up GB/T 2828.1<br/>General inspection level II"]
+    B --> C["Sample size n=125 pcs"]
+    C --> D["AQL=1.0<br/>Ac=3, Re=4"]
+    D --> E{"Defects found in 125?"}
+    E -->|"≤ 3"| F["Accept"]
+    E -->|"≥ 4"| G["Reject<br/>Return / sort / special accept"]
+    style F fill:#d5e8d4,stroke:#82b366
+    style G fill:#f8cecc,stroke:#b85450
+```
+
+**Key points:** AQL is not an "allowed defect rate" but a sampling decision criterion; critical safety parts should use SPC + 100% inspection instead of AQL. Inspection level I = relaxed (familiar supplier), III = tightened (new supplier / problem lot).
+
+---
+
+### 48. Control Plan
+
+**One-liner:** Write on one page "what to control at each process, how to control it, and what to do if something goes wrong" — a core IATF document.
+
+**Example: Injection molding control plan excerpt**
+
+| Process | Product characteristic | Spec | Measurement method | Frequency | Reaction to abnormality |
+|---|---|---|---|---|---|
+| Injection | Outer diameter | φ10±0.05 | Caliper | 5 pcs / 2h | Stop and adjust mold + trace |
+| Injection | Short shot | Not allowed | Visual | 100% | Quarantine + adjust machine |
+| Assembly | Screw torque | 1.2±0.1 N·m | Torque wrench | 10 pcs / shift | Stop line + re-tighten |
+
+**Key point:** Control plan links with FMEA — high-RPN items from FMEA must have corresponding controls in the control plan.
+
+---
+
+### 49. SDCA Cycle (Standardize & Maintain)
+
+**One-liner:** PDCA raises the level; SDCA prevents backsliding — standardize first, then talk about further improvement.
+
+```mermaid
+flowchart LR
+    S["S Standardize<br/>Write countermeasure into SOP"] --> D["D Do<br/>Work per new standard"]
+    D --> C["C Check<br/>Confirm compliance rate"]
+    C --> A["A Act<br/>Correct deviation / retrain"]
+    A -->|"Stable"| S2["Enter next PDCA<br/>Challenge higher target"]
+    P["PDCA climbs stairs<br/>SDCA is the anti-slip mat"] -.-> S
+    style S2 fill:#d5e8d4,stroke:#82b366
+```
+
+**Example:** After QCC reduced defect rate from 2.3% to 0.4%, if not written into SOP and checked daily, it likely rebounds to 1.5% in three months — common ending without SDCA.
+
+---
+
+### 50. FIFO First-In-First-Out & Traceability
+
+**One-liner:** Materials leave in the order they arrived, batch information fully traceable — the "time machine" for quality incidents.
+
+```mermaid
+flowchart LR
+    A["Incoming batch receipt<br/>Label: part no + batch no + date"] --> B["Arrange by receipt time<br/>Left-in right-out / top-in bottom-out"]
+    B --> C["First-expired-first-out<br/>ERP enforces FIFO"]
+    C --> D["Shipment records batch no"]
+    D --> E["Customer complaint: trace by batch<br/>Lock inventory/in-transit/customer quantities"]
+    E --> F["Quarantine → dispose → 8D"]
+    style E fill:#ffe6cc,stroke:#d79b00
+```
+
+**Example:** Customer complains battery swelling; factory locks problem batch to March 12 Line B within 30 minutes, recalls 200 in transit, notifies customer to quarantine 1500 — impossible without traceability.
+
+---
+
+## XV. Needs & Strategy
+
+### 51. Kano Model
+
+**One-liner:** Needs fall into three types — basic (absence causes complaints), performance (more is better), excitement (creates word-of-mouth).
+
+```mermaid
+flowchart TB
+    K["Kano Model"]
+    K --> B["Basic<br/>Missing = complaint, present = silent<br/>e.g., phone can make calls"]
+    K --> P["Performance<br/>More = more satisfied (linear)<br/>e.g., battery 1d→3d→7d"]
+    K --> E["Excitement<br/>Exceeds expectations, creates delight<br/>e.g., on-time delivery insurance"]
+    K --> I["Indifferent<br/>Presence or absence doesn't matter"]
+    style B fill:#f8cecc,stroke:#b85450
+    style P fill:#ffe6cc,stroke:#d79b00
+    style E fill:#d5e8d4,stroke:#82b366
+```
+
+**Application:** Basic must be 100% met; performance optimized by ROI; excitement is differentiation weapon — and today's excitement decays into tomorrow's expectation.
+
+---
+
+### 52. PEST Macro Environment Analysis
+
+**One-liner:** Before entering a new market/industry, scan the external environment through political, economic, social, and technology lenses.
+
+```mermaid
+flowchart TB
+    PEST["PEST Analysis"]
+    PEST --> P["P Political / Legal<br/>Policy stability, tariffs, labor law<br/>e.g., Vietnam tax incentives for foreign investment"]
+    PEST --> E["E Economic<br/>Exchange rate, labor cost, inflation<br/>e.g., Vietnam wages rising 8-10% yearly"]
+    PEST --> S["S Social / Cultural<br/>Demographics, language, religion<br/>e.g., Vietnam median age 32"]
+    PEST --> T["T Technology<br/>Infrastructure, automation, supply chain<br/>e.g., northern Vietnam electronics cluster mature"]
+    style PEST fill:#dae8fc,stroke:#6c8ebf
+```
+
+**When to use:** Overseas plant site selection, new business feasibility, annual strategy review.
+
+---
+
+### 53. Ansoff Matrix (Growth Strategy)
+
+**One-liner:** Use "product × market" new/old combinations to generate four growth routes, ranked from low to high risk.
+
+```mermaid
+quadrantChart
+    title Ansoff Matrix - X: Existing Product -> New Product; Y: Existing Market -> New Market
+    x-axis Existing Product --> New Product
+    y-axis Existing Market --> New Market
+    quadrant-3 Market penetration - sell more existing products to existing customers
+    quadrant-2 Market development - existing products into new markets
+    quadrant-4 Product development - new products for existing customers
+    quadrant-1 Diversification - new product + new market, highest risk
+```
+
+**Example:** Snack factory growth path — market penetration (channel down-extension to county supermarkets) → product development (low-sugar version for existing customers) → market development (export to Southeast Asia) → diversification (acquire beverage factory).
+
+---
+
+## XVI. Leading Teams
+
+### 54. RACI Matrix
+
+**One-liner:** Every task has only one A (Accountable) — avoids "everyone's responsible = no one is" or credit-grabbing/blame-shifting.
+
+| Task | Project manager | Engineering | Quality | Production |
+|---|---|---|---|---|
+| New product introduction | **A** | R | C | C |
+| Pilot run validation | C | **A**/R | R | R |
+| Mass production release | **A** | C | R | I |
+| Customer complaint handling | I | C | **A**/R | C |
+
+R=Responsible, A=Accountable, C=Consulted, I=Informed. **Every row must have exactly one A.**
+
+---
+
+### 55. GROW Coaching Model
+
+**One-liner:** Coach subordinates without giving answers — use four questions to help them find the answer, so they actually execute.
+
+```mermaid
+flowchart LR
+    G["G Goal<br/>What do you want to achieve?"] --> R["R Reality<br/>What is the current situation?"]
+    R --> O["O Options<br/>What are possible ways?"]
+    O --> W["W Will<br/>What will you do? When will you start?"]
+    W --> F["Employee-committed action<br/>Execution rate much higher than assigned tasks"]
+    style F fill:#d5e8d4,stroke:#82b366
+```
+
+**Example dialogue:** Manager asks "What do you want to improve this month?" (G) → "How long is changeover now?" (R) → "How do you think it could be shortened?" (O) → "Then let's try internal/external separation next week?" (W) — SMED is "their choice," zero resistance to rollout.
+
+---
+
+### 56. KPT Retrospective
+
+**One-liner:** Keep what to continue, Problem what went wrong, Try what to test next — the lightest daily retrospective.
+
+```mermaid
+flowchart LR
+    K["K Keep<br/>What went well, standardize it"] --> P["P Problem<br/>Where stuck? Root cause?"]
+    P --> T["T Try<br/>Which countermeasure to test next?"]
+    T --> K
+    style T fill:#ffe6cc,stroke:#d79b00
+```
+
+**Example (3-minute daily standup):** K=changeover completed faster than target today; P=material mix-up caused 20-min search; T=tomorrow try color-zoned storage. Lighter than GRAI, good for high-frequency small cycles (daily/weekly).
+
+---
+
+### 57. Conflict Handling Five Strategies (TKI)
+
+**One-liner:** Conflict is not scary; choosing the right strategy is key — assertiveness (result) and cooperation (relationship) determine the approach.
+
+| Strategy | Assertiveness × Cooperation | When to use | Example |
+|---|---|---|---|
+| Competing | High assertive, low cooperation | Urgent + principle issue | Safety issue must stop work immediately |
+| Collaborating | Both high | Important and need win-win | Build quality standards with key supplier |
+| Compromising | Both medium | Time tight, each gives a little | Delivery dispute, both sides give 2 days |
+| Avoiding | Both low | Small matter, emotions hot | Let both sides cool 24 hours before talking |
+| Accommodating | Low assertive, high cooperation | Relationship more important | Yield to senior expert's technical approach |
+
+**Myth:** "Avoiding" is not weakness — pausing when emotions are high is professional.
+
+---
+
+### 58. Maslow's Hierarchy of Needs (Motivation)
+
+**One-liner:** Employee needs progress from survival to self-actualization — frontline cares about money, key staff cares about growth; wrong incentives waste money.
+
+```mermaid
+flowchart TB
+    M5["Self-actualization<br/>Challenge projects, patent credit, internal startup"] --> M4["Esteem<br/>Titles, recognition, private office"]
+    M4 --> M3["Social<br/>Team building, mentorship, clubs"]
+    M3 --> M2["Safety<br/>Insurance, stable orders, PPE"]
+    M2 --> M1["Physiological<br/>Wages, canteen, dormitory, shuttle bus"]
+    style M1 fill:#f8cecc,stroke:#b85450
+    style M5 fill:#d5e8d4,stroke:#82b366
+```
+
+**Factory application:** Operators mainly motivated by M1-M2 (transparent overtime pay, dorm improvement); team leaders/engineers add M3-M4 (skill certification, outstanding employee trips); for M5-driven key staff, leading improvement projects retains them better than raises.
+
+---
+
+## XVII. Project & Risk
+
+### 59. Critical Path Method (CPM)
+
+**One-liner:** The longest-duration path in a project determines total duration — compressing non-critical paths is wasted effort.
+
+```mermaid
+flowchart LR
+    A["A Design<br/>3 days"] --> B["B Procurement<br/>5 days"]
+    A --> C["C Prototype<br/>2 days"]
+    B --> D["D Assembly<br/>4 days"]
+    C --> D
+    D --> E["Delivery"]
+    P["Critical path A→B→D = 12 days<br/>Compress duration only on these three<br/>C has 3 days float, not urgent"] -.-> B
+    style B fill:#ffe6cc,stroke:#d79b00
+    style P fill:#fff2cc,stroke:#d6b656
+```
+
+**Example:** To cut 2 days, paying supplier B for expedited delivery works; pushing prototype C is useless — it was already waiting.
+
+---
+
+### 60. Risk Matrix (Probability × Impact)
+
+**One-liner:** Too many risks to manage? Rank by "probability × impact" and handle red zone first.
+
+```mermaid
+flowchart TB
+    M["Risk matrix RPN = P × I"]
+    M --> H["Red zone P×I ≥ 12<br/>Act now: avoid/transfer/mitigate"]
+    M --> MID["Yellow zone 6 ~ 11<br/>Make plan, review regularly"]
+    M --> L["Green zone ≤ 5<br/>Accept, keep monitoring"]
+    E1["High-risk e.g. single-supplier material cutoff<br/>P=3 × I=5 = 15 → dual source + safety stock"] --> H
+    E2["Medium-risk e.g. new employee proficiency<br/>P=4 × I=2 = 8 → mentorship + first-month buddy"] --> MID
+    E3["Low-risk e.g. office relocation<br/>P=2 × I=2 = 4 → pack early"] --> L
+    style H fill:#f8cecc,stroke:#b85450
+    style MID fill:#ffe6cc,stroke:#d79b00
+    style L fill:#d5e8d4,stroke:#82b366
+```
+
+**When to use:** Project kickoff, new product introduction, plant relocation, annual risk assessment. More general than FMEA (not limited to product/process).
 
 ---
 

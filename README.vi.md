@@ -1,4 +1,4 @@
-# Sơ đồ các phương pháp quản trị (mã nguồn mở · có thể chỉnh sửa · tổng cộng 39 phương pháp)
+# Sơ đồ các phương pháp quản trị (mã nguồn mở · có thể chỉnh sửa · tổng cộng 60 phương pháp)
 
 **Ngôn ngữ / Language**：**Tiếng Việt** · [English](README.en.md) · [中文](README.md)
 
@@ -25,6 +25,12 @@ Chỉ cần sửa văn bản là chỉnh được sơ đồ, không cần phần
 | Rút kinh nghiệm | Phương pháp hoàn tất GRAI |
 | Phân tích chất lượng nhà máy | QC 7 công cụ, sơ đồ kiểm soát, CPK, GRR, FMEA |
 | Hiện trường & thiết bị | 5S, Poka-Yoke, TPM, OEE, SMED |
+| Hiệu suất dây chuyền & logistics | Cân bằng dây chuyền, Kanban, VSM, EOQ |
+| Quản lý hiện trường & thay đổi | Tam Hiện (Gemba), Quản lý thay đổi 4M, Quản lý bằng mắt |
+| Kiểm tra & hệ thống | AQL, Kế hoạch kiểm soát, SDCA, FIFO |
+| Nhu cầu & chiến lược | Kano, PEST, Ma trận Ansoff |
+| Lãnh đạo đội nhóm | RACI, GROW, KPT, 5 chiến lược xung đột, Maslow |
+| Dự án & rủi ro | Đường găng (CPM), Ma trận rủi ro |
 | An toàn sản xuất | Quy tắc Heinrich |
 | Hoạt động cải tiến | QCC, báo cáo A3 |
 
@@ -40,6 +46,7 @@ flowchart TB
     Q --> E["Bám thực thi"] --> E1["PDCA / DMAIC / 8D"]
     Q --> F["Rút kinh nghiệm"] --> F1["GRAI / tháp nguyên lý"]
     Q --> G["Chất lượng & thiết bị nhà máy"] --> G1["QC 7 công cụ / CPK / GRR / 5S / TPM"]
+    Q --> H["Lãnh đạo đội nhóm / Quản lý dự án"] --> H1["RACI / GROW / KPT / Ma trận rủi ro"]
     style Q fill:#dae8fc,stroke:#6c8ebf
 ```
 
@@ -858,6 +865,406 @@ flowchart LR
 **Ví dụ**: A3 cải tiến tai nạn lao động — Bối cảnh (5 vụ/quý) → Hiện trạng (phân tầng: 60% là vận chuyển) → Nguyên nhân gốc rễ (5Why: đào tạo chỉ dừng ở ký nhận) → Đối sách (thi thực hành + xe đẩy trợ lực) → Hiệu quả (quý sau 0 vụ).
 
 **Khi nào dùng**: Báo cáo vấn đề liên phòng ban, tổng kết QCC/8D, xin nguồn lực từ ban lãnh đạo.
+
+---
+
+## XII. Nhóm hiệu suất dây chuyền & logistics
+
+### 40. Cân bằng dây chuyền (Line Balancing)
+
+**Một câu**: Chênh lệch chu kỳ giữa các công đoạn càng nhỏ, hiệu suất dây chuyền càng cao — công đoạn nghẽn quyết định toàn bộ sản lượng.
+
+```mermaid
+flowchart LR
+    A["Công đoạn 1<br/>20 giây"] --> B["Công đoạn 2<br/>35 giây ★nghẽn"]
+    B --> C["Công đoạn 3<br/>25 giây"]
+    C --> D["Công đoạn 4<br/>18 giây"]
+    D --> E["Công đoạn 5<br/>22 giây"]
+    F["Tỷ lệ cân bằng = Tổng thờ gian các công đoạn ÷ (Số công đoạn × Thờ gian nghẽn)<br/>= (20+35+25+18+22) ÷ (5×35) = 120÷175 ≈ 68.6%"]
+    G["Cải tiến: tách / thêm người / song song tại công đoạn nghẽn<br/>Mục tiêu tỷ lệ cân bằng ≥ 85%"]
+    B -.-> F
+    F --> G
+    style B fill:#f8cecc,stroke:#b85450
+    style G fill:#d5e8d4,stroke:#82b366
+```
+
+**Ví dụ**: Tách công đoạn 2 từ 35 giây thành hai người làm song song (18+17 giây), nghẽn mới trở thành 25 giây → tỷ lệ cân bằng = 120÷125 = **96%**, năng suất tăng 40% mà không cần mua thêm thiết bị.
+
+---
+
+### 41. Kanban
+
+**Một câu**: Công đoạn sau cần bao nhiêu, công đoạn trước sản xuất bấy nhiêu — dùng thẻ thay lệnh sản xuất, loại bỏ sản xuất dư thừa.
+
+```mermaid
+flowchart LR
+    A["Khách hàng / công đoạn sau"] -->|"Lấy hàng thì tháo thẻ"| B["Thùng thu thẻ"]
+    B -->|"Thẻ = lệnh sản xuất"| C["Công đoạn trước chỉ sản xuất đúng số thẻ"]
+    C -->|"Bổ sung"| D["Khu vực đệm siêu thị"]
+    D --> A
+    E["Công thức số thẻ<br/>= Nhu cầu trung bình × Chu kỳ bổ sung × (1 + Hệ số an toàn) ÷ Dung lượng thùng<br/>VD: 500 chiếc/ngày × 2 ngày × 1.2 ÷ 50 = 24 thẻ"]
+    style E fill:#fff2cc,stroke:#d6b656
+```
+
+**Ví dụ**: Xưởng SMT dùng 2 thùng Kanban (một thùng đang dùng, một thùng đang bổ sung), chuyền không còn "núi bán thành phẩm", WIP giảm 60%.
+
+---
+
+### 42. VSM - Bản đồ dòng giá trị
+
+**Một câu**: Vẽ "dòng thông tin + dòng vật liệu + thờ gian" trên một trang, nhìn thấy rõ lãng phí từ nguyên liệu đến xuất hàng.
+
+```mermaid
+flowchart LR
+    S["Nhà cung cấp"] -->|"1 tuần 1 lần"| P1["Dập<br/>CT=10 giây<br/>Đổi khuôn 120 phút"]
+    P1 -->|"Đẩy<br/>Lô 5000"| P2["Hàn<br/>CT=15 giây"]
+    P2 -->|"Đẩy"| P3["Lắp ráp<br/>CT=45 giây"]
+    P3 -->|"2 lần/ngày"| C["Khách hàng"]
+    T["Tổng chu kỳ 23 ngày<br/>Thờ gian gia tăng giá trị chỉ 70 giây"]
+    P1 -.-> T
+    P2 -.-> T
+    P3 -.-> T
+    style T fill:#f8cecc,stroke:#b85450
+```
+
+**Cách dùng**: Vẽ bản đồ hiện trạng → đánh dấu tồn kho và chờ → vẽ bản đồ tương lai (dòng liên tục + kéo theo nhu cầu) → lập kế hoạch cải tiến. Trong ví dụ trên, trong 23 ngày chu kỳ chỉ có 70 giây thực sự gia công.
+
+---
+
+### 43. EOQ - Lô hàng kinh tế
+
+**Một câu**: Đặt ít → chi phí đặt hàng cao; đặt nhiều → chi phí tồn kho cao; EOQ là điểm cân bằng tổng chi phí thấp nhất.
+
+```mermaid
+flowchart LR
+    A["Nhu cầu năm D = 12000 chiếc"] --> B["Chi phí đặt hàng S = 500 ngàn đồng"]
+    A --> C["Chi phí tồn kho H = 5000 đồng/chiếc/năm"]
+    B --> D["EOQ = √(2DS ÷ H)"]
+    C --> D
+    D --> E["= √(2×12000×500÷5000)<br/>≈ 1549 chiếc/lần"]
+    E --> F["Số lần đặt/năm = 12000÷1549 ≈ 8 lần<br/>Tổng chi phí tối thiểu ≈ 7.745 triệu đồng"]
+    style E fill:#ffe6cc,stroke:#d79b00
+```
+
+**Điểm cần nhớ**: EOQ là mô hình lý tưởng, thực tế còn phải xem xét: MOQ, chiết khấu số lượng, diện tích kho, hạn sử dụng (đặc biệt thực phẩm/hóa chất).
+
+---
+
+## XIII. Nhóm quản lý hiện trường & thay đổi
+
+### 44. Tam Hiện - Gemba Walk
+
+**Một câu**: Hiện trường, hiện vật, hiện thực — đừng ngồi trong văn phòng xem báo cáo, hãy ra hiện trường xem vật thật, nắm thực trạng thực sự.
+
+```mermaid
+flowchart TB
+    A["Vấn đề xảy ra"] --> B["Ra hiện trường<br/>Gemba"]
+    B --> C["Xem hiện vật<br/>Sờ, đo, chụp ảnh"]
+    C --> D["Nắm hiện thực<br/>Dùng dữ liệu kiểm chứng, không nghe báo cáo suông"]
+    D --> E["Xử lý tại chỗ / mang nguyên nhân thật về"]
+    F["Quản lý dành 30 phút/ngày đi tuần chuyền<br/>Ba câu hỏi: Tiêu chuẩn là gì? Thực tế ra sao? Tại sao có chênh lệch?"] -.-> B
+    style E fill:#d5e8d4,stroke:#82b366
+```
+
+**Ví dụ**: Báo cáo cho thấy tỷ lệ lỗi 0.5% bình thường, nhưng tổ trưởng tuần chuyền phát hiện công nhân bỏ qua công đoạn vệ sinh để chạy đua sản lượng — chỉ khi đứng tại hiện trường mới thấy được.
+
+---
+
+### 45. Quản lý thay đổi 4M
+
+**Một câu**: Bất kỳ thay đổi nào về Người - Máy - Nguyên liệu - Phương pháp đều có thể mang rủi ro mới — thay đổi phải có quy trình, không được "đổi lén".
+
+```mermaid
+flowchart LR
+    A["Đề xuất thay đổi<br/>4M: Người/Máy/Nguyên liệu/Phương pháp"] --> B["Đánh giá rủi ro<br/>Cập nhật FMEA"]
+    B --> C["Chạy thử số lượng nhỏ<br/>Kiểm chứng CPK, GRR"]
+    C --> D{"Khách hàng phê duyệt?<br/>Bắt buộc với chi tiết ô tô"}
+    D -->|"Có"| E["Chuyển đổi chính thức<br/>Tăng cường kiểm tra lô đầu"]
+    D -->|"Không"| F["Tiếp tục kiểm chứng hoặc từ bỏ"]
+    E --> G["Cập nhật kế hoạch kiểm soát / SOP<br/>Thông báo các bên liên quan"]
+    X["⚠ Thay đổi không được phê duyệt<br/>= Khiếu nại và sự cố hàng loạt"] -.-> A
+    style X fill:#f8cecc,stroke:#b85450
+    style G fill:#d5e8d4,stroke:#82b366
+```
+
+**Ví dụ**: Đổi sang nhà cung cấp ốc vít mới (thay đổi Nguyên liệu) mà không kiểm chứng, dẫn đến cả lô 5000 sản phẩm mô-men xoắn không đạt bị thu hồi — quy trình thay đổi 4M chính là để ngăn chặn tai nạn như vậy.
+
+---
+
+### 46. Quản lý bằng mắt (Visual Management)
+
+**Một câu**: Trạng thái hiện trường nhìn một cái là biết — bình thường hay bất thường không cần hỏi, dùng màu sắc, vạch kẻ, đèn tín hiệu để nói.
+
+| Công cụ trực quan | Ví dụ |
+|---|---|
+| Quản lý màu sắc | Xanh = khu vực hàng đạt, đỏ = hàng lỗi, vàng = chờ kiểm tra |
+| Vạch định vị | Bảng mẫu dụng cụ, vạch lối đi, vạch tồn kho tối đa (vượt là bất thường) |
+| Andon | Dây kéo tại công đoạn, bất thường thì đèn sáng + chuông, tổ trưởng có mặt trong 3 phút |
+| Bảng quản lý | Sản lượng / lỗi / trạng thái máy cập nhật hàng giờ |
+| Đèn tín hiệu | Máy xanh = chạy / vàng = chờ / đỏ = hỏng |
+
+**Tiêu chí đánh giá**: Một người lạ bước vào xưởng, có thể trong 30 giây nhận ra "chỗ nào bình thường, chỗ nào bất thường" không?
+
+---
+
+## XIV. Nhóm kiểm tra & hệ thống
+
+### 47. AQL - Kiểm tra mẫu chấp nhận
+
+**Một câu**: Không thể kiểm tra 100%, phải lấy mẫu theo thống kê — AQL cho bạn biết "lấy bao nhiêu, cho phép bao nhiêu lỗi".
+
+```mermaid
+flowchart LR
+    A["Lô hàng N=1500 chiếc"] --> B["Tra bảng GB/T 2828.1<br/>Mức kiểm tra II thông thường"]
+    B --> C["Cỡ mẫu n=125 chiếc"]
+    C --> D["AQL=1.0<br/>Ac=3, Re=4"]
+    D --> E{"Số lỗi trong 125 chiếc?"}
+    E -->|"≤ 3"| F["Chấp nhận"]
+    E -->|"≥ 4"| G["Từ chối<br/>Trả hàng / chọn lọc / nhận đặc biệt"]
+    style F fill:#d5e8d4,stroke:#82b366
+    style G fill:#f8cecc,stroke:#b85450
+```
+
+**Điểm cần nhớ**: AQL không phải "tỷ lệ lỗi cho phép", mà là tiêu chuẩn phán định mẫu; chi tiết an toàn quan trọng nên dùng SPC + kiểm tra 100% thay vì AQL. Mức kiểm tra I là nới lỏng (nhà cung cấp quen), III là siết chặt (nhà cung cấp mới / lô có vấn đề).
+
+---
+
+### 48. Kế hoạch kiểm soát (Control Plan)
+
+**Một câu**: Ghi thành một trang "mỗi công đoạn kiểm soát gì, kiểm soát thế nào, lệch thì làm gì", là tài liệu cốt lõi của IATF.
+
+**Ví dụ (trích kế hoạch kiểm soát công đoạn ép nhựa)**:
+
+| Công đoạn | Đặc tính sản phẩm | Quy cách | Phương pháp đo | Tần suất | Phản ứng bất thường |
+|---|---|---|---|---|---|
+| Ép nhựa | Đường kính ngoài | φ10±0.05 | Thước kẹp | 5 chiếc/2 giờ | Dừng máy chỉnh khuôn + truy xuất |
+| Ép nhựa | Thiếu liệu | Không cho phép | Mắt thường | 100% | Cách ly + chỉnh máy |
+| Lắp ráp | Mô-men xoắn ốc | 1.2±0.1 N·m | Máy đo lực | 10 chiếc/ca | Dừng chuyền + siết lại |
+
+**Điểm cần nhớ**: Kế hoạch kiểm soát liên kết với FMEA — những hạng mục RPN cao trong FMEA phải có biện pháp kiểm soát tương ứng trong kế hoạch kiểm soát.
+
+---
+
+### 49. SDCA - Vòng duy trì tiêu chuẩn
+
+**Một câu**: PDCA làm mức độ vấn đề tăng lên, SDCA giữ thành quả không trượt ngược — tiêu chuẩn hóa trước, rồi mới tối ưu tiếp.
+
+```mermaid
+flowchart LR
+    S["S Standardize<br/>Ghi đối sách vào SOP"] --> D["D Do<br/>Làm theo tiêu chuẩn mới"]
+    D --> C["C Check<br/>Kiểm tra tỷ lệ tuân thủ"]
+    C --> A["A Action<br/>Sửa lệch / đào tạo lại"]
+    A -->|"Ổn định rồi"| S2["Chuyển sang vòng PDCA tiếp theo<br/>Thách thức mục tiêu cao hơn"]
+    P["PDCA là leo thang<br/>SDCA là miếng đệm chống trượt"] -.-> S
+    style S2 fill:#d5e8d4,stroke:#82b366
+```
+
+**Ví dụ**: Sau khi QCC giảm tỷ lệ lỗi từ 2.3% xuống 0.4%, nếu không ghi vào SOP và xác nhận hàng ngày, ba tháng sau rất có thể tăng lại 1.5% — đó là kết cục phổ biến khi thiếu SDCA.
+
+---
+
+### 50. FIFO - Vào trước ra trước & truy xuất
+
+**Một câu**: Vật liệu xuất kho theo thứ tự nhập kho, thông tin lô hàng truy xuất được xuyên suốt — "cỗ máy thờ gian" của xử lý sự cố chất lượng.
+
+```mermaid
+flowchart LR
+    A["Lô nguyên liệu nhập kho<br/>Nhãn: mã hàng + số lô + ngày"] --> B["Sắp xếp theo thứ tự nhập<br/>Vào trái ra phải / Vào trên ra dưới"]
+    B --> C["Dùng trước hết lô nhập sớm nhất<br/>ERP bắt buộc FIFO"]
+    C --> D["Ghi nhận số lô xuất hàng"]
+    D --> E["Khi có khiếu nại: truy theo số lô<br/>Khóa hàng tồn kho / đang vận chuyển / tại khách hàng"]
+    E --> F["Cách ly → xử lý → 8D"]
+    style E fill:#ffe6cc,stroke:#d79b00
+```
+
+**Ví dụ**: Khách hàng phản ánh pin phồng, nhà máy khóa được lô hàng trong 30 phút là lô 12/3 dây chuyền B, cùng ngày thu hồi 200 chiếc đang vận chuyển và thông báo khách cách ly 1500 chiếc — không có hệ thống truy xuất, phản ứng như vậy là không thể.
+
+---
+
+## XV. Nhóm nhu cầu & chiến lược
+
+### 51. Mô hình Kano
+
+**Một câu**: Nhu cầu chia làm ba loại — yếu tố cơ bản thiếu là bị chửi, yếu tố hiệu suất càng tốt càng thích, yếu tố gây thích ngạc tạo ra truyền miệng.
+
+```mermaid
+flowchart TB
+    K["Mô hình Kano"]
+    K --> B["Cơ bản<br/>Thiếu thì phàn nàn, có thì im lặng<br/>VD: điện thoại gọi được"]
+    K --> P["Hiệu suất<br/>Càng tốt càng hài lòng (tuyến tính)<br/>VD: pin 1 ngày → 3 ngày → 7 ngày"]
+    K --> E["Gây thích ngạc<br/>Vượt mong đợi, tạo bất ngờ<br/>VD: giao hàng đúng giờ được bảo hiểm"]
+    K --> I["Vô sai biệt<br/>Có hay không cũng không quan tâm"]
+    style B fill:#f8cecc,stroke:#b85450
+    style P fill:#ffe6cc,stroke:#d79b00
+    style E fill:#d5e8d4,stroke:#82b366
+```
+
+**Ứng dụng**: Yếu tố cơ bản phải đạt 100%; yếu tố hiệu suất tối ưu theo tỷ lệ chi phí - lợi ích; yếu tố gây thích ngạc là vũ khí khác biệt hóa — và điều gây thích ngạc hôm nay sẽ trở thành kỳ vọng ngày mai.
+
+---
+
+### 52. PEST - Phân tích môi trường vĩ mô
+
+**Một câu**: Trước khi vào thị trường / ngành mới, dùng bốn góc nhìn Chính trị, Kinh tế, Xã hội, Công nghệ để quét môi trường bên ngoài.
+
+```mermaid
+flowchart TB
+    PEST["Phân tích PEST"]
+    PEST --> P["P Chính trị / Pháp lý<br/>Ổn định chính sách, thuế quan, luật lao động<br/>VD: ưu đãi thuế đối với FDI tại Việt Nam"]
+    PEST --> E["E Kinh tế<br/>Tỷ giá, chi phí nhân công, lạm phát<br/>VD: lương Việt Nam tăng 8-10%/năm"]
+    PEST --> S["S Xã hội / Văn hóa<br/>Cơ cấu dân số, ngôn ngữ, tôn giáo<br/>VD: tuổi trung bình Việt Nam 32 tuổi"]
+    PEST --> T["T Công nghệ<br/>Hạ tầng, mức độ tự động hóa, chuỗi cung ứng<br/>VD: ngành điện tử phía Bắc đã phát triển đầy đủ"]
+    style PEST fill:#dae8fc,stroke:#6c8ebf
+```
+
+**Khi nào dùng**: Chọn địa điểm nhà máy ở nước ngoài (tình huống thường gặp với độc giả Việt - Trung), đánh giá khả thi kinh doanh mới, rút kinh nghiệm chiến lược hàng năm.
+
+---
+
+### 53. Ma trận Ansoff (chiến lược tăng trưởng)
+
+**Một câu**: Dùng tổ hợp "Sản phẩm × Thị trường" mới/cũ tạo ra bốn hướng tăng trưởng, rủi ro từ thấp đến cao.
+
+```mermaid
+quadrantChart
+    title Ma trận Ansoff - trục ngang: sản phẩm hiện tại → sản phẩm mới; trục dọc: thị trường hiện tại → thị trường mới
+    x-axis Sản phẩm hiện tại --> Sản phẩm mới
+    y-axis Thị trường hiện tại --> Thị trường mới
+    quadrant-3 Thâm nhập thị trường：bán thêm sản phẩm hiện cho khách hiện
+    quadrant-2 Phát triển thị trường：sản phẩm hiện sang thị trường mới
+    quadrant-4 Phát triển sản phẩm：sản phẩm mới cho khách hiện
+    quadrant-1 Đa dạng hóa：sản phẩm mới + thị trường mới, rủi ro cao nhất
+```
+
+**Ví dụ**: Lộ trình tăng trưởng của nhà máy snack — Thâm nhập thị trường (đưa sản phẩm hiện xuống siêu thị huyện) → Phát triển sản phẩm (ra phiên bản ít đường cho khách cũ) → Phát triển thị trường (xuất khẩu Đông Nam Á) → Đa dạng hóa (mua lại nhà máy nước giải khát).
+
+---
+
+## XVI. Nhóm lãnh đạo đội nhóm
+
+### 54. RACI - Ma trận trách nhiệm
+
+**Một câu**: Mỗi việc chỉ có một A (người chịu trách nhiệm giải trình), tránh "cả nhóm cùng quản = không ai quản" hoặc "đùn đẩy / tranh công".
+
+| Nhiệm vụ | Quản lý dự án | Kỹ thuật | Chất lượng | Sản xuất |
+|---|---|---|---|---|
+| Nhập sản phẩm mới | **A** | R | C | C |
+| Chạy thử | C | **A**/R | R | R |
+| Thả hàng loạt | **A** | C | R | I |
+| Xử lý khiếu nại | I | C | **A**/R | C |
+
+R=Thực hiện Responsible, A=Chịu trách nhiệm giải trình Accountable, C=Tư vấn Consulted, I=Thông báo Informed. **Mỗi hàng phải có và chỉ có một A.**
+
+---
+
+### 55. GROW - Mô hình huấn luyện
+
+**Một câu**: Huấn luyện cấp dưới không cần đưa đáp án, dùng bốn câu hỏi dẫn anh ta tự tìm ra — anh ta mới thực sự làm.
+
+```mermaid
+flowchart LR
+    G["G Goal Mục tiêu<br/>Bạn muốn đạt gì?"] --> R["R Reality Hiện trạng<br/>Hiện tại tình hình thế nào?"]
+    R --> O["O Options Phương án<br/>Có những cách nào có thể làm?"]
+    O --> W["W Will Ý chí<br/>Bạn định làm gì? Bắt đầu khi nào?"]
+    W --> F["Hành động do cấp dưới tự cam kết<br/>Tỷ lệ thực hiện cao hơn nhiều so với bị giao việc"]
+    style F fill:#d5e8d4,stroke:#82b366
+```
+
+**Ví dụ đối thoại**: Quản đốc hỏi "Tháng này con muốn cải thiện gì?" (G) → "Hiện tại đổi khuôn mất bao lâu?" (R) → "Theo con thì rút ngắn bằng cách nào?" (O) → "Vậy tuần sau mình thử tách nội ngoại trước nhé?" (W) — SMED là do cấp dưới "tự chọn", triển khai không gặp kháng cự.
+
+---
+
+### 56. KPT - Rút kinh nghiệm nhẹ
+
+**Một câu**: Keep tiếp tục giữ, Problem vấn đề, Try thử nghiệm tiếp theo — phương pháp rút kinh nghiệm nhẹ nhàng nhất.
+
+```mermaid
+flowchart LR
+    K["K Keep Giữ lại<br/>Cái làm tốt, cố định thành thói quen"] --> P["P Problem Vấn đề<br/>Chỗ nào kẹt? Nguyên nhân gốc rễ là gì?"]
+    P --> T["T Try Thử<br/>Lần sau thử đối sách nào?"]
+    T --> K
+    style T fill:#ffe6cc,stroke:#d79b00
+```
+
+**Ví dụ (phiên bản họp daily 3 phút)**: K=Hôm nay đổi khuôn nhanh hơn mục tiêu; P=Nhầm mã nguyên liệu mất 20 phút tìm; T=Ngày mai thử chia khu vực theo màu. **Nhẹ hơn GRAI, phù hợp chu kỳ ngắn (ngày/tuần).**
+
+---
+
+### 57. Năm chiến lược xử lý xung đột (TKI)
+
+**Một câu**: Xung đột không đáng sợ, đáng sợ là chọn sai chiến lược — hai chiều "Kiên trì với mục tiêu" và "Hợp tác với quan hệ" quyết định cách chơi.
+
+| Chiến lược | Kiên trì × Hợp tác | Tình huống phù hợp | Ví dụ |
+|---|---|---|---|
+| Cạnh tranh | Kiên trì cao, hợp tác thấp | Khẩn cấp + vấn đề nguyên tắc | Vấn đề an toàn phải dừng máy ngay lập tức |
+| Hợp tác | Cả hai cao | Quan trọng và cần đôi bên cùng thắng | Cùng nhà cung cấp then chốt xây dựng tiêu chuẩn chất lượng |
+| Thỏa hiệp | Trung bình cả hai | Thờ gian gấp, mỗi bên nhượng một bước | Tranh cãi ngày giao hàng, hai bên cùng lùi 2 ngày |
+| Tránh né | Cả hai thấp | Chuyện nhỏ hoặc đang nóng giận | Cho cả hai bên nguôi 24 giờ rồi nói lại |
+| Nhượng bộ | Kiên trì thấp, hợp tác cao | Duy trì quan hệ quan trọng hơn | Nhượng lộ trình kỹ thuật cho chuyên gia kỳ cựu |
+
+**Sai lầm phổ biến**: Coi "tránh né" là yếu đuối — thực ra tạm dừng khi cảm xúc dâng trào chính là chuyên nghiệp.
+
+---
+
+### 58. Tháp nhu cầu Maslow (động viên)
+
+**Một câu**: Nhu cầu của nhân viên từ sinh tồn đến tự thể hiện từng bậc thang — công nhân cần tiền, trụ cột cần phát triển, dùng sai động lực là tốn tiền vô ích.
+
+```mermaid
+flowchart TB
+    M5["Tự thể hiện<br/>Dự án thử thách, đứng tên sáng chế, khởi nghiệp nội bộ"] --> M4["Được tôn trọng<br/>Chức danh, khen thưởng, phòng làm việc riêng"]
+    M4 --> M3["Xã hội<br/>Team building, đôi buddy, câu lạc bộ"]
+    M3 --> M2["An toàn<br/>Bảo hiểm, đơn hàng ổn định, đồ bảo hộ"]
+    M2 --> M1["Sinh lý<br/>Lương, căn tin, ký túc, xe đưa đón"]
+    style M1 fill:#f8cecc,stroke:#b85450
+    style M5 fill:#d5e8d4,stroke:#82b366
+```
+
+**Ứng dụng trong nhà máy**: Động viên công nhân cơ bản tập trung M1-M2 (tăng ca minh bạch, cải thiện khu ở); tổ trưởng/kỹ sư thêm M3-M4 (chứng chỉ kỹ năng, giải thưởng nhân viên xuất sắc); với nhân tài cần M5, giao quyền chủ trì dự án cải tiến thường giữ chân tốt hơn tăng lương.
+
+---
+
+## XVII. Nhóm dự án & rủi ro
+
+### 59. Đường găng - CPM (Critical Path Method)
+
+**Một câu**: Con đường dài nhất trong dự án quyết định tổng thờ gian — nén những việc không nằm trên đường găng là làm vô ích.
+
+```mermaid
+flowchart LR
+    A["A Thiết kế<br/>3 ngày"] --> B["B Mua hàng<br/>5 ngày"]
+    A --> C["C Làm mẫu<br/>2 ngày"]
+    B --> D["D Lắp ráp<br/>4 ngày"]
+    C --> D
+    D --> E["Bàn giao"]
+    P["Đường găng A→B→D = 12 ngày<br/>Nén thờ gian chỉ có thể tác động ba hạng mục này<br/>C có 3 ngày dự phòng, không cần vội"] -.-> B
+    style B fill:#ffe6cc,stroke:#d79b00
+    style P fill:#fff2cc,stroke:#d6b656
+```
+
+**Ví dụ**: Cần rút ngắn 2 ngày, trả tiền cho nhà cung cấp ưu tiên (B) là hiệu quả; giục làm mẫu (C) hoàn toàn vô dụng — vì nó vốn đang chờ đợi.
+
+---
+
+### 60. Ma trận rủi ro (Xác suất × Tác động)
+
+**Một câu**: Rủi ro nhiều không quản hết? Sắp xếp theo "Xác suất × Mức độ tác động", vùng đỏ xử lý trước.
+
+```mermaid
+flowchart TB
+    M["Ma trận rủi ro RPN = P × I"]
+    M --> H["Vùng đỏ P×I ≥ 12<br/>Hành động ngay: tránh/chuyển/giảm thiểu"]
+    M --> MID["Vùng vàng 6 ~ 11<br/>Lập phương án dự phòng, kiểm tra định kỳ"]
+    M --> L["Vùng xanh ≤ 5<br/>Chấp nhận, tiếp tục theo dõi"]
+    E1["VD rủi ro cao: nhà cung cấp độc quyền đứt nguồn<br/>P=3 × I=5 = 15 → hai nguồn + tồn kho an toàn"] --> H
+    E2["VD rủi ro trung bình: công nhân mới chưa thành thạo<br/>P=4 × I=2 = 8 → đôi buddy + tháng đầu có người hỗ trợ"] --> MID
+    E3["VD rủi ro thấp: chuyển văn phòng<br/>P=2 × I=2 = 4 → đóng gói trước"] --> L
+    style H fill:#f8cecc,stroke:#b85450
+    style MID fill:#ffe6cc,stroke:#d6b656
+    style L fill:#d5e8d4,stroke:#82b366
+```
+
+**Khi nào dùng**: Họp khởi động dự án, nhập sản phẩm mới, chuyển nhà máy, đánh giá rủi ro hàng năm. **Tổng quát hơn FMEA** (không giới hạn sản phẩm / quy trình).
 
 ---
 
